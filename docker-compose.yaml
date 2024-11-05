@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./
+    environment:
+      - PYTHONPATH=./  # Указываем путь к директории с модулями приложения
+      - FLASK_ENV=development  # Устанавливаем режим разработки
+      - DATABASE_URL=postgresql://uction:uction@postgres:5432/uction  # URL для подключения к базе данных
+    ports:
+      - "8000:8000"  # Пробрасываем порт
+    networks:
+      - es-net
+    depends_on:
+      - postgres  # Указываем зависимость от сервиса postgres
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "1000:5432"
+    environment:
+      POSTGRES_USER: auction
+      POSTGRES_DB: auction
+      POSTGRES_PASSWORD: auction
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+    networks:
+      - es-net
+
+volumes:
+  pg-data:
+    driver: local
+
+networks:
+  es-net:
+    driver: bridge
