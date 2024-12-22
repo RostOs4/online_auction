@@ -18,11 +18,8 @@
 `git clone https://github.com/RostOs4/online_auction.git`
 
 ## Запуск
-cd online_auction/database
-docker-compose up -d
-
-cd online_auction/api
-docker-compose up --build
+cd online_auction
+docker-compose up --build -d
 
 
 ## Разработчики
