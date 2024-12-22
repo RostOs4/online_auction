@@ -14,7 +14,7 @@ services:
     networks:
       - es-net
     command: >
-      sh -c "flask run --host=0.0.0.0 --port=8000"  # Задержка перед запуском Flask
+      sh -c "sleep 10 && flask run --host=0.0.0.0 --port=8000"  # Задержка перед запуском Flask
 
   postgres:
     image: postgres:latest
