@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать Лот</title>
+    <link rel="stylesheet" href="../static/css/edit_item.css">
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <div class="container">
+        <a href="javascript:history.back()" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <h1>Редактировать Лот: {{ item.title }}</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Название:</label>
+                <input type="text" id="title" name="title" value="{{ item.title }}" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Описание:</label>
+                <textarea id="description" name="description">{{ item.description }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="start_time">Время начала:</label>
+                <input type="datetime-local" id="start_time" name="start_time" value="{{ item.start_time.strftime('%Y-%m-%dT%H:%M') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="end_time">Время окончания:</label>
+                <input type="datetime-local" id="end_time" name="end_time" value="{{ item.end_time.strftime('%Y-%m-%dT%H:%M') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="initial_bid">Начальная ставка:</label>
+                <input type="number" step="100" id="initial_bid" name="initial_bid" value="{{ item.initial_bid }}" required>
+            </div>
+            <div class="form-group">
+                <label for="min_difference_bid">Минимальная разница ставки:</label>
+                <input type="number" step="10" id="min_difference_bid" name="min_difference_bid" value="{{ item.min_difference_bid }}" required>
+            </div>
+            <div class="form-group">
+                <label for="photos">Фотографии:</label>
+                <input type="file" id="photos" name="photos" multiple accept="image/*">
+                <div class="existing-photos">
+                    <h5>Загруженные фотографии:</h5>
+                    <div class="photo-gallery">
+                        {% for photo in existing_photos %}
+                            <div class="photo-item">
+                                <img src="{{ url_for('uploaded_file', filename=photo.url) }}" alt="Фото отзыва">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="video">Видео:</label>
+                <input type="file" id="video" name="video" accept="video/*">
+                <div class="existing-videos">
+                    <h5>Загруженные видео:</h5>
+
+                    <div class="video-gallery">
+                        {% for video in existing_videos %}
+                            <div class="video-item">
+                                <video controls src="{{ url_for('uploaded_file', filename=video.url) }}" alt="Видео отзыва"></video>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn">Сохранить изменения</button>
+        </form>
+    </div>
+</body>
+</html>

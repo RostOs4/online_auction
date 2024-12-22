@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать Аукцион</title>
+    <link rel="stylesheet" href="../static/css/edit_auctions.css">
+    <script src="../static/js/edit_auction.js"></script>
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <div class="form-wrapper">
+        <a href="javascript:history.back()" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <div>
+            <h1>Редактировать Аукцион: {{ auction.title }}</h1>
+
+            <form method="POST">
+                <div>
+                    <label for="title">Название:</label>
+                    <input type="text" id="title" name="title" value="{{ auction.title }}" required>
+                </div>
+                <div>
+                    <label for="description">Описание:</label>
+                    <textarea id="description" name="description" required>{{ auction.description }}</textarea>
+                </div>
+                <div>
+                    <label for="start_time">Начало:</label>
+                    <input type="datetime-local" id="start_time" name="start_time" value="{{ auction.start_time.strftime('%Y-%m-%dT%H:%M') }}" required>
+                </div>
+                <div>
+                    <label for="end_time">Конец:</label>
+                    <input type="datetime-local" id="end_time" name="end_time" value="{{ auction.end_time.strftime('%Y-%m-%dT%H:%M') }}" required>
+                </div>
+                <div>
+                    <label for="category_id">Категория:</label>
+                    <select id="category_id" name="category_id" required>
+                        <option value="" {% if auction.category_id is none %}selected{% endif %} disabled>Выберите категорию</option>
+                        {% for category in categories %}
+                            <option value="{{ category.category_id }}" {% if category.category_id == auction.category_id %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="auction_type">Тип аукциона:</label>
+                    <select id="auction_type" name="auction_type" required>
+                        <option value="открытый" {% if auction.auction_type == 'открытый' %}selected{% endif %}>Открытый</option>
+                        <option value="закрытый" {% if auction.auction_type == 'закрытый' %}selected{% endif %}>Закрытый</option>
+                    </select>
+                </div>
+                <button type="submit">Сохранить изменения</button>
+            </form>
+
+            <h3>Лоты:</h3>
+            <div class="item-wrapper">
+                <div class="create-item-wrapper">
+                    <a href="{{ url_for('create_item', auction_id=auction.auction_id) }}" class="btn-create-item">Создать лот</a>
+                </div>
+            </div>
+
+            <div class="items">
+                {% for item in items %}
+                    <div class="item">
+                        <h4>{{ item.title }}</h4>
+                        <p>{{ item.description }}</p>
+                        <p>Начальная ставка: {{ item.initial_bid }}</p>
+                        <p>Минимальная разница ставки: {{ item.min_difference_bid }}</p>
+                        <p>Статус: {{ item.status }}</p>
+                        <a href="{{ url_for('edit_item', item_id=item.item_id) }}" class="edit">Редактировать лот</a>
+                    </div>
+                {% endfor %}
+            </div>  
+        </div>
+    </div>
+</body>
+</html>

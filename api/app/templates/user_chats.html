@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чаты и Заявки</title>
+    <link rel="stylesheet" href="../static/css/user_chats.css">
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <header>
+        <div class="header-buttons">
+            <a href="/">
+                <img src="../static/images/logo.png" class="header-logo"/>
+            </a>
+            
+            <div class="header-block">
+                <div class="header-catalog">
+                    <a href="../catalog" class="header-button">
+                        <img src="../static/images/catalog.png" class="header-image"/>Каталог</a>
+                </div>
+            </div>
+            
+            <div class="header-block">
+                <div class="search">
+                    <form action="{{ url_for('catalog') }}" method="GET">
+                        <input type="text" name="search" placeholder="Поиск..." class="header-button">
+                        <button type="submit" class="header-button">
+                            <img src="../static/images/search.png" class="header-image"/>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="header-block">
+                <div class="header-auction">
+                    <a href="{{ url_for('participating') }}" class="header-button">
+                        <img src="../static/images/auction.png" class="header-image"/>Участвую</a>
+                </div>
+            </div>
+
+            <div class="header-block end-block">
+                <div class="account">
+                    <a href="/login" class="header-button">
+                        <img src="../static/images/account.png" class="header-image"/>Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <a href="javascript:history.back()" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <div class="catalog">
+            <h1>Чаты</h1>
+
+            <h2>Список чатов:</h2>
+            <ul class="messages-list">
+                {% for chat in chats %}
+                    <a href="{{ url_for('chat', user_id=chat.user_id) }}">
+                        <li class="message-item">
+                            <strong>С кем:</strong> {{ chat.username }}<br>
+                            <strong>Последнее сообщение:</strong> {{ chat.last_message.message }}<br>
+                            <strong>Дата:</strong> {{ chat.last_message.created_at.strftime('%Y-%m-%d %H:%M') }}<br>
+                        </li>
+                    </a>
+                {% else %}
+                    <li>У вас нет чатов.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="catalog">
+            <h2>Ваши заявки на участие в аукционах:</h2>
+            <ul class="introductions-list">
+                {% for introduction in user_introductions %}
+                    <a href="{{ url_for('auction', auction_id=introduction.auction_id) }}">
+                        <li class="introduction-item">
+                                <strong>Аукцион:</strong> {{ introduction.auction.title }}<br>
+                                <strong>Статус:</strong> {{ introduction.status }}<br>
+                        </li>
+                    </a>
+                {% else %}
+                    <li>У вас нет заявок на участие в аукционах.</li>
+                {% endfor %}
+            </ul>
+
+            <h2>Заявки на ваши аукционы:</h2>
+            <ul class="introductions-list">
+                {% for introduction in seller_introductions %}
+                    <li class="introduction-item">
+                        <a href="{{ url_for('auction', auction_id=introduction.auction_id) }}">
+                            <strong>Аукцион:</strong> {{ introduction.auction.title }}<br>
+                            <strong>Пользователь:</strong> {{ users_for_seller_introductions[introduction.introduction_id].username }}<br>
+                        </a>
+                        <div class="status-container">
+                            <strong>Статус:</strong> <span class="status">{{ introduction.status }}</span>
+                        </div>
+                        <div class="button-group">
+                            <form action="{{ url_for('approve_introduction', introduction_id=introduction.introduction_id) }}" method="POST">
+                                <button type="submit" class="approve-button">Одобрить</button>
+                            </form>
+                            <form action="{{ url_for('decline_introduction', introduction_id=introduction.introduction_id) }}" method="POST">
+                                <button type="submit" class="decline-button">Отклонить</button>
+                            </form>
+                        </div>
+                    </li>
+                {% else %}
+                    <li>У вас нет заявок на ваши аукционы.</li>
+                {% endfor %}
+            </ul>
+
+
+        </div>
+    </main>
+</body>
+</html>

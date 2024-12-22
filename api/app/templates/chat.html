@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат с {{ user.username }}</title>
+    <link rel="stylesheet" href="../static/css/chat.css">    
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <header>
+        <div class="header-buttons">
+            <a href="/">
+                <img src="../static/images/logo.png" class="header-logo"/>
+            </a>
+            
+            <div class="header-block">
+                <div class="header-catalog">
+                    <a href="../catalog" class="header-button">
+                        <img src="../static/images/catalog.png" class="header-image"/>Каталог</a>
+                </div>
+            </div>
+            
+            <div class="header-block">
+                <div class="search">
+                    <form action="{{ url_for('catalog') }}" method="GET">
+                        <input type="text" name="search" placeholder="Поиск..." class="header-button">
+                        <button type="submit" class="header-button">
+                            <img src="../static/images/search.png" class="header-image"/>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="header-block">
+                <div class="header-auction">
+                    <a href="{{ url_for('participating') }}" class="header-button">
+                        <img src="../static/images/auction.png" class="header-image"/>Участвую</a>
+                </div>
+            </div>
+
+            <div class="header-block end-block">
+                <div class="account">
+                    <a href="/login" class="header-button">
+                        <img src="../static/images/account.png" class="header-image"/>Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <a href="javascript:history.back()" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        
+        <div class="chat-container">
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {% if message.sender_id == session.user_id %}sent{% else %}received{% endif %}">
+                        <p><strong>{{ message.sender.username }}:</strong> {{ message.message }}</p>
+                        <span class="timestamp">{{ message.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            <form action="{{ url_for('send_message', recipient_id=user.user_id) }}" method="POST" class="message-form">
+                <input type="text" name="message" placeholder="Введите сообщение..." required>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

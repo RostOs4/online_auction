@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+    <link rel="stylesheet" href="../static/css/account.css">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    <header>
+        <div class="header-buttons">       
+            <a href="javascript:history.back()" class="btn-back">
+                <img src="../static/images/back.png" alt="Назад" class="back-image">
+            </a>
+            <div class="header-block">
+                <div class="catalog">
+                    <a href="{{ url_for('my_auctions') }}" class="header-button">
+                        <img src="../static/images/catalog.png" class="header-image"/>Мои аукционы</a>
+                </div>
+            </div>
+            
+            <div class="header-block">
+                <div class="search">
+                    <form action="{{ url_for('catalog') }}" method="GET">
+                        <input type="text" name="search" placeholder="Поиск..." class="header-button">
+                        <button type="submit" class="header-button">
+                            <img src="../static/images/search.png" class="header-image"/>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="header-block">
+                <div class="auction">
+                    <a href="{{ url_for('user_chats') }}" class="header-button">
+                        <img src="../static/images/message.png" class="header-image"/>Сообщения</a>
+                </div>
+            </div>
+
+            <a href="/">
+                <img src="../static/images/logo.png" class="header-logo"/>
+            </a>
+            
+        </div>
+    </header>
+    <main>
+        <div class="container mt-5">
+            <h1>Личный кабинет</h1>
+
+            <!-- Информация о пользователе -->
+            <section class="account-section">
+                <h2>Информация о пользователе</h2>
+                <p>Никнейм: {{ user.username }}</p>
+                <p>Имя: {{ user.first_name }}</p>
+                <p>Фамилия: {{ user.last_name }}</p>
+                <p>Телефон: {{ user.phone_number }}</p>
+                <p>Адрес: {{ user.address }}</p>
+                <p>Email: {{ user.email }}</p>
+                <a href="{{ url_for('edit_account') }}" class="btn btn-primary">Редактировать профиль</a>
+            </section>
+
+            <hr>
+
+            <section class="account-section">
+                <h2>Банковские карты</h2>
+            
+                <!-- Проверяем, есть ли у пользователя карты -->
+                {% if user.cards and user.cards|length > 0 %}
+                    <h3>Ваши карты</h3>
+                    <ul class="list-group">
+                        {% for card in user.cards %}
+                            <li class="list-group-item">
+                                {{ card.card_number }} 
+                                <form action="{{ url_for('delete_card', card_id=card.card_id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <h3>У вас пока не добавлено ни одной карты.</h3>
+                {% endif %}
+            
+                <!-- Кнопка для открытия формы добавления карты -->
+                <a href="{{ url_for('add_card') }}" class="btn btn-primary">Добавить карту</a>
+            </section>
+
+            <hr>
+
+            <!-- Сообщение о проблеме -->
+            <section class="account-section">
+                <h2>Сообщить о проблеме</h2>
+                <form action="{{ url_for('report_problem') }}" method="POST">
+                    <div class="form-group">
+                        <label for="problem_text">Описание проблемы</label>
+                        <textarea class="form-control" id="problem_text" name="problem_text" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Отправить</button>
+                </form>
+            </section>
+
+            <hr>
+
+
+            <section class="account-section">
+                <form action="{{ url_for('logout') }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Выйти из аккаунта</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои аукционы</title>
+    <link rel="stylesheet" href="../static/css/participating.css">
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <header>
+        <div class="header-buttons">
+            <a href="/">
+                <img src="../static/images/logo.png" class="header-logo"/>
+            </a>
+            
+            <div class="header-block">
+                <div class="header-catalog">
+                    <a href="catalog" class="header-button">
+                        <img src="../static/images/catalog.png" class="header-image"/>Каталог</a>
+                </div>
+            </div>
+            
+            <div class="header-block">
+                <div class="search">
+                    <form action="{{ url_for('catalog') }}" method="GET">
+                        <input type="text" name="search" placeholder="Поиск..." class="header-button">
+                        <button type="submit" class="header-button">
+                            <img src="../static/images/search.png" class="header-image"/>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="header-block">
+                <div class="header-auction">
+                    <a href="{{ url_for('participating') }}" class="header-button">
+                        <img src="../static/images/auction.png" class="header-image"/>Участвую</a>
+                </div>
+            </div>
+
+            <div class="header-block end-block">
+                <div class="account">
+                    <a href="/login" class="header-button">
+                        <img src="../static/images/account.png" class="header-image"/>Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <a href="javascript:history.back()" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+
+    
+        <section class="filters">
+            <h1>Аукционы, в которых участвую</h1>
+            
+            <div class="filter-buttons">
+                <a href="{{ url_for('participating', filter='all') }}" class="filter-button {% if filter_type == 'all' %}active{% endif %}">Все</a>
+                <a href="{{ url_for('participating', filter='active') }}" class="filter-button {% if filter_type == 'active' %}active{% endif %}">Активные</a>
+                <a href="{{ url_for('participating', filter='ended') }}" class="filter-button {% if filter_type == 'ended' %}active{% endif %}">Завершённые</a>
+                <a href="{{ url_for('participating', filter='pending_or_rejected') }}" class="filter-button {% if filter_type == 'pending_or_rejected' %}active{% endif %}">Заявки</a>
+            </div>
+        </section>
+
+        <section class="catalog">
+            <div class="auctions-list">
+                {% for auction in auctions %}
+                    <a href="{{ url_for('auction', auction_id=auction.auction_id) }}" class="auction">
+                        <h2>{{ auction.title }}</h2>
+                        <p>{{ auction.description }}</p>
+                        <p>Начало: {{ auction.start_time }}</p>
+                        <p>Конец: {{ auction.end_time }}</p>
+                        <p>Категория: {{ auction.category.name }}</p>
+                        <p class="status-{{ auction.status }}">Статус: {{ auction.status }}</p>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>  
+    </main>
+</body>
+</html>

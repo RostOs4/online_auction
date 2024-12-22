@@ -1,0 +1,47 @@
+<!-- templates/register.html -->
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="../static/css/register.css">
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <div class="form-wrapper">
+        <a href="{{ url_for('login') }}" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.username.label(text='Имя пользователя') }} {{ form.username(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.email.label(text='Электронная почта') }} {{ form.email(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.password.label(text='Пароль') }} {{ form.password(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.confirm_password.label(text='Подтверждение пароля') }} {{ form.confirm_password(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.submit(class_='form-item', value='Зарегистрироваться') }}
+            </div>
+        </form>
+        <div class="form-link-wrapper">
+            <a id="login-link" href="{{ url_for('login') }}">Уже есть аккаунт? Войдите!</a>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

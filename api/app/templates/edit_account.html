@@ -1,0 +1,44 @@
+<!-- templates/edit_account.html -->
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Редактирование аккаунта</title>
+    <link rel="stylesheet" href="../static/css/edit_account.css">
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <div class="form-wrapper">
+        <a href="{{ url_for('account') }}" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.username.label(text='Имя пользователя') }} {{ form.username(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.email.label(text='Электронная почта') }} {{ form.email(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.first_name.label(text='Имя') }} {{ form.first_name(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.last_name.label(text='Фамилия') }} {{ form.last_name(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.phone_number.label(text='Номер телефона') }} {{ form.phone_number(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.address.label(text='Адрес') }} {{ form.address(size=12, class_='form-item') }}
+            </div>
+            <div>
+                {{ form.submit(class_='form-item', value='Сохранить изменения') }}
+            </div>
+        </form>
+        <div class="form-link-wrapper">
+            <a id="profile-link" href="{{ url_for('account') }}">Вернуться к профилю</a>
+        </div>
+    </div>
+</body>
+</html>

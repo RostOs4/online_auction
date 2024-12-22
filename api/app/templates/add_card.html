@@ -1,0 +1,48 @@
+<!-- templates/add_card.html -->
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Добавление банковской карты</title>
+    <link rel="stylesheet" href="../static/css/add_card.css">
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <div class="form-wrapper">
+        <a href="{{ url_for('account') }}" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <h2>Добавить банковскую карту</h2>
+
+        <form method="POST" action="{{ url_for('add_card') }}">
+            <div>
+                <label for="card_number">Номер карты</label>
+                <input type="text" id="card_number" name="card_number" required placeholder="Введите 16 цифр" class="form-item">
+            </div>
+            <div>
+                <label for="card_period">Срок действия (MM/YY)</label>
+                <input type="text" id="card_period" name="card_period" required placeholder="01/23" class="form-item">
+            </div>
+            <div>
+                <label for="card_cvv">CVV</label>
+                <input type="text" id="card_cvv" name="card_cvv" required placeholder="Введите 3 цифры" class="form-item">
+            </div>
+            <div>
+                <input type="submit" class="form-item" value="Добавить карту">
+            </div>
+        </form>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <div class="form-link-wrapper">
+            <a id="profile-link" href="{{ url_for('account') }}">Вернуться к профилю</a>
+        </div>
+    </div>
+</body>
+</html>

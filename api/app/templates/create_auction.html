@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать Аукцион</title>
+    <link rel="stylesheet" href="../static/css/create_auction.css">    
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <div class="form-wrapper">
+        <a href="javascript:history.back()" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <div>
+            <h1>Создать Аукцион</h1>
+
+            <form method="POST">
+                <div>
+                    <label for="title">Название:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div>
+                    <label for="description">Описание:</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                <div>
+                    <label for="start_time">Начало:</label>
+                    <input type="datetime-local" id="start_time" name="start_time" required>
+                </div>
+                <div>
+                    <label for="end_time">Конец:</label>
+                    <input type="datetime-local" id="end_time" name="end_time" required>
+                </div>
+                <div>
+                    <label for="category_id">Категория:</label>
+                    <select id="category_id" name="category_id" required>
+                        <option value="" disabled selected>Выберите категорию</option>
+                        {% for category in categories %}
+                            <option value="{{ category.category_id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="auction_type">Тип аукциона:</label>
+                    <select id="auction_type" name="auction_type" required>
+                        <option value="открытый">Открытый</option>
+                        <option value="закрытый">Закрытый</option>
+                    </select>
+                </div>
+                <button type="submit">Создать аукцион</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog - Онлайн Аукцион</title>
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+    <link rel="stylesheet" href="../static/css/item.css">
+    <script src="../static/js/item.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-buttons">
+            <a href="/">
+                <img src="../static/images/logo.png" class="header-logo"/>
+            </a>
+            
+            <div class="header-block">
+                <div class="header-catalog">
+                    <a href="../catalog" class="header-button">
+                        <img src="../static/images/catalog.png" class="header-image"/>Каталог</a>
+                </div>
+            </div>
+            
+            <div class="header-block">
+                <div class="search">
+                    <form action="{{ url_for('catalog') }}" method="GET">
+                        <input type="text" name="search" placeholder="Поиск..." class="header-button">
+                        <button type="submit" class="header-button">
+                            <img src="../static/images/search.png" class="header-image"/>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="header-block">
+                <div class="header-auction">
+                    <a href="{{ url_for('participating') }}" class="header-button">
+                        <img src="../static/images/auction.png" class="header-image"/>Участвую</a>
+                </div>
+            </div>
+
+            <div class="header-block end-block">
+                <div class="account">
+                    <a href="/login" class="header-button">
+                        <img src="../static/images/account.png" class="header-image"/>Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <a href="{{ url_for('auction', auction_id=auction.auction_id)}}" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <div class="container">
+            <h1>{{ item.title }}</h1>
+            <p><strong>Описание:</strong> {{ item.description }}</p>
+            <p><strong>Начальная ставка:</strong> {{ item.initial_bid }}</p>
+            <p><strong>Минимальная разница ставки:</strong> {{ item.min_difference_bid }}</p>
+            <p><strong>Статус:</strong> {{ item.status }}</p>
+            <p><strong>Время начала:</strong> {{ item.start_time }}</p>
+            <p><strong>Время окончания:</strong> {{ item.end_time }}</p>
+            
+            <!-- Выводим название и описание аукциона -->
+            <h2>Аукцион</h2>
+            <p><strong>Название:</strong> {{ auction.title }}</p>
+            <p><strong>Описание:</strong> {{ auction.description }}</p>
+        </div>
+        
+        <a href="{{ url_for('make_bid', item_id=item.item_id) }}" class="auction">Сделать ставку</a>
+
+        <div class="container">
+            <h2>История ставок</h2>
+            <table id="bidsTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Время ставки <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable(1)">Имя пользователя <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable(2)">Email <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable(3)">Сумма ставки <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable(4)">Разница ставок <span class="sort-indicator"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bid, user, difference in bid_differences %}
+                    <tr>
+                        <td>{{ bid.bid_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ bid.bid_amount }}</td>
+                        <td>
+                            {% if difference > 0 %}
+                                +{{ difference }}
+                            {% elif difference < 0 %}
+                                {{ difference }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5">Нет ставок для этого товара.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>        
+    </main>
+</body>
+</html>

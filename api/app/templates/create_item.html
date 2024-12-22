@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать Лот</title>
+    <link rel="stylesheet" href="../static/css/create_item.css">
+    <script src="../static/js/create_item.js"></script>
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+</head>
+<body>
+    <div class="form-wrapper">
+        <a href="javascript:history.back()" class="btn-back">
+            <img src="../static/images/back.png" alt="Назад" class="back-image">
+        </a>
+        <div>
+            <h1>Создать Лот для Аукциона: {{ auction.title }}</h1>
+
+            <form method="POST">
+                <div>
+                    <label for="title">Название:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div>
+                    <label for="description">Описание:</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                <div>
+                    <label for="start_time">Начало:</label>
+                    <input type="datetime-local" id="start_time" name="start_time" required>
+                </div>
+                <div>
+                    <label for="end_time">Конец:</label>
+                    <input type="datetime-local" id="end_time" name="end_time" required>
+                </div>
+                <div>
+                    <label for="initial_bid">Начальная ставка:</label>
+                    <input type="number" id="initial_bid" name="initial_bid" step="10.0" required>
+                </div>
+                <div>
+                    <label for="min_difference_bid">Минимальная разница ставки:</label>
+                    <input type="number" id="min_difference_bid" name="min_difference_bid" step="10.0" required>
+                </div>
+                <input type="hidden" name="auction_id" value="{{ auction.auction_id }}">
+                <button type="submit">Создать лот</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

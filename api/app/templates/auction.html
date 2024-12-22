@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog - Онлайн Аукцион</title>
+    <link rel="icon" type="image/png" href="../static/images/logo.png">
+    <link rel="stylesheet" href="../static/css/auction.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-buttons">
+            <a href="/">
+                <img src="../static/images/logo.png" class="header-logo"/>
+            </a>
+            
+            <div class="header-block">
+                <div class="header-catalog">
+                    <a href="../catalog" class="header-button">
+                        <img src="../static/images/catalog.png" class="header-image"/>Каталог</a>
+                </div>
+            </div>
+            
+            <div class="header-block">
+                <div class="search">
+                    <form action="{{ url_for('catalog') }}" method="GET">
+                        <input type="text" name="search" placeholder="Поиск..." class="header-button">
+                        <button type="submit" class="header-button">
+                            <img src="../static/images/search.png" class="header-image"/>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="header-block">
+                <div class="header-auction">
+                    <a href="{{ url_for('participating') }}" class="header-button">
+                        <img src="../static/images/auction.png" class="header-image"/>Участвую</a>
+                </div>
+            </div>
+
+            <div class="header-block end-block">
+                <div class="account">
+                    <a href="/login" class="header-button">
+                        <img src="../static/images/account.png" class="header-image"/>Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="header2">
+            <a href="javascript:history.back()" class="btn-back">
+                <img src="../static/images/back.png" alt="Назад" class="back-image">
+            </a>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul>
+                    {% set last_message = messages[-1] %}
+                    {% for category, message in messages %}
+                        {% if loop.index == messages|length or loop.index == messages|length - 1 %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <a href="{{ url_for('introduction', auction_id=auction.auction_id) }}" class="btn-apply header-button">Подать заявку</a>
+        </div>
+        <div class="container">
+            <h1>{{ auction.title }}</h1>
+            <p><strong>Описание:</strong> {{ auction.description }}</p>
+            <p><strong>Организатор:</strong> {{ seller.username }}</p>
+            <p><strong>Дата начала:</strong> {{ auction.start_time }}</p>
+            <p><strong>Дата окончания:</strong> {{ auction.end_time }}</p>
+            <p><strong>Тип аукциона:</strong> {{ auction.auction_type }}</p>
+            <p><strong>Статус:</strong> {{ auction.status }}</p>
+            <a href="{{ url_for('user_profile', user_id=seller.user_id) }}" class="btn btn-primary">Перейти на страницу поставщика</a>
+
+            <h2>Лоты</h2>
+            <div class="items-list">
+                {% for item in items %}
+                    <a href="{{ url_for('item', item_id=item.item_id) }}" class="item">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="card-text"><strong>Начальная ставка:</strong> {{ item.initial_bid }}</p>
+                        <p class="card-text"><strong>Минимальное отличие ставки:</strong> {{ item.min_difference_bid }}</p>
+                        <p class="status-{{item.status}}">Статус:{{ item.status }}</p>
+                    </a>
+                {% else %}
+                    <p>Нет доступных лотов.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="feedback-list">
+            <h2>Написать отзыв:</h2>
+            <div class="feedback-form">
+                <form action="{{ url_for('submit_feedback', auction_id=auction.auction_id) }}" method="POST" enctype="multipart/form-data">
+                    <label for="dignities">Достоинства:</label>
+                    <textarea type="text" id="dignities" name="dignities" required></textarea>
+        
+                    <label for="disadvantages">Недостатки:</label>
+                    <textarea type="text" id="disadvantages" name="disadvantages" required></textarea>
+        
+                    <label for="comment">Комментарий:</label>
+                    <textarea id="comment" name="comment" required></textarea>
+        
+                    <label for="stars_count">Оценка (1-5):</label>
+                    <input type="number" id="stars_count" name="stars_count" min="1" max="5" required>
+        
+                    <label for="photos">Фото:</label>
+                    <input type="file" id="photos" name="photos" multiple accept="image/*">
+        
+                    <label for="video">Видео:</label>
+                    <input type="file" id="video" name="video" accept="video/*">
+        
+                    <button type="submit">Отправить отзыв</button>
+                </form>
+            </div>
+        </div>
+
+        
+        <h2>Отзывы:</h2>
+        <div class="container">
+        {% if feedbacks %}
+            <div class="feedback-list">
+                {% for feedback in feedbacks %}
+                    <div class="feedback">
+                        <strong>{{ feedback.user.username }}</strong> ({{ feedback.stars_count }} звёзд)
+                        <p><strong>Достоинства:</strong> {{ feedback.dignities }}</p>
+                        <p><strong>Недостатки:</strong> {{ feedback.disadvantages }}</p>
+                        <p><strong>Комментарий:</strong> {{ feedback.comment }}</p>
+                        
+                        {% if feedback.photos and feedback.photos|length > 0 %}
+                        <strong>Фотографии:</strong>
+                            <div class="photo-gallery">
+                                {% for photo in feedback.photos %}
+                                    <img src="{{ url_for('uploaded_file', filename=photo.url) }}" alt="Фото отзыва">
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        {% if feedback.videos and feedback.videos|length > 0 %}
+                        <strong>Видео:</strong>
+                            <div class="video-gallery">
+                                {% for video in feedback.videos %}
+                                    <video controls src="{{ url_for('uploaded_file', filename=video.url) }}" alt="Видео отзыва"></video>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Отзывов пока нет.</p>
+        {% endif %}
+        </div>
+    </main>
+</body>
+</html>

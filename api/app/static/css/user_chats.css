@@ -1,0 +1,299 @@
+body {
+    background-color: #f5f5f5;
+  }
+  
+header {
+  position: relative;
+  margin: 1% 2%;
+  padding: 0.5% 2%;
+  width: 92%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #f5f0c8;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10; 
+}
+.header-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.header-block {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+.header-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  font-size:30px;
+
+}
+.header-button:hover {
+  background-color: #e9e9e9;
+}
+.header-logo {
+  width: 60px;
+  border-radius: 10%;
+}
+.header-image {
+  width: 20px;
+  height: 20px;
+  padding-right: 5px;
+}
+
+.header-catalog {
+  display: flex;
+  text-wrap: nowrap;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  flex-grow: 1;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  flex-grow: 1;
+}
+.search input {
+  border: none;
+  padding: 8px 10px;
+  font-size: 20px;
+  border-radius: 5px 0 0 5px;
+  flex-grow: 1;
+}
+.search input:focus {
+  outline: none;
+}
+.search button {
+  background-color: transparent;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 0 5px 5px 0;
+}
+
+.header-auction {
+  display: flex;
+  flex-flow: column;
+  text-wrap: nowrap;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  flex-grow: 1;
+}
+.end-block {
+  margin: 0;
+}
+.account {
+  display: flex;
+  flex-flow: column;
+  text-wrap: nowrap;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  flex-grow: 1;
+}
+
+main {
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+  
+main a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.btn-back {
+    display: inline-block;
+}
+
+.back-image {
+    width: 30px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.back-image:hover {
+    transform: scale(1.1);
+}
+
+.catalog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.catalog:hover {
+    transform: translateY(-5px); 
+  }
+.catalog h1 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.messages-list, .introductions-list {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.message-item, .introduction-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-item:hover, .introduction-item:hover {
+    background-color: #e9ecef;
+}
+
+h2 {
+    font-size: 28px;
+    color: #333;
+    margin: 20px 0 10px 0;
+}
+
+
+/* .introduction-item {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.introduction-item a {
+  flex-grow: 1; 
+  text-decoration: none; 
+  color: #333; 
+}
+
+.button-group {
+  display: flex; 
+  gap: 10px; 
+}
+
+.approve-button, .decline-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.approve-button {
+  background-color: #28a745; 
+  color: white;
+}
+
+.approve-button:hover {
+  background-color: #218838; 
+}
+
+.decline-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.decline-button:hover {
+  background-color: #c82333; 
+}
+
+.status-container {
+  text-align: center;
+} */
+.introduction-item {
+  display: flex;
+  justify-content: space-between; /* Размещаем элементы по краям */
+  align-items: center; /* Центрируем элементы по вертикали */
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column; /* Размещаем элементы в колонку */
+  flex-grow: 1; /* Позволяет контейнеру занимать доступное пространство */
+}
+
+.introduction-item a {
+  text-decoration: none;
+  color: #333;
+}
+
+.status-container {
+  text-align: center; /* Центрируем текст статуса */
+  margin: 10px 0; /* Отступы сверху и снизу */
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end; /* Выравниваем кнопки вправо */
+}
+
+.approve-button, .decline-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.approve-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.approve-button:hover {
+  background-color: #218838;
+}
+
+.decline-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.decline-button:hover {
+  background-color: #c82333;
+}
