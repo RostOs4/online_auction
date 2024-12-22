@@ -19,6 +19,7 @@
 
 ## Запуск
 `cd online_auction`
+
 `docker-compose up --build -d`
 
 
