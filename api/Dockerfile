@@ -8,7 +8,7 @@ WORKDIR /app
 COPY requirements.txt ./
 
 # Устанавливаем зависимости
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=1000 -r requirements.txt
 
 # Копируем остальные файлы приложения в контейнер
 COPY . .
@@ -20,4 +20,4 @@ ENV FLASK_APP=app/app.py
 EXPOSE 8000
 
 # Команда для запуска приложения
-CMD ["sh", "-c", "sleep 10 && flask run --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "flask run --host=0.0.0.0 --port=8000"]
